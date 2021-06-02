@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import BasicWebViewer from "./Components/BasicWebViewer";
 import ExtractSignatureWebViewer from "./Components/ExtractSignatureWebViewer";
+import CustomizedWebViewer from "./Components/CustomizedWebViewer/CustomizedWebViewer";
 
 const App = () => {
 

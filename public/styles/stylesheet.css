@@ -1,0 +1,35 @@
+.Button.Icon {
+    color: red;
+}
+
+.Button {
+    /* background-color: red;  */
+}
+
+.Panel {
+    background-color: orange; 
+}
+
+.Panel.open {
+    transition: all ease 0.5s;
+}
+
+.Overlay {
+    background-color: green; 
+}
+
+.Modal {
+    background-color: blue; 
+}
+
+.Popup {
+    background-color: yellow; 
+}
+
+.Header {
+    background-color: purple; 
+}
+
+.custom-ribbons-container {
+    background-color: pink; 
+}

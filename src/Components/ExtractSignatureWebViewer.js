@@ -9,9 +9,6 @@ const sasToken = globals.SAS_TOKEN;
 const containerName = globals.STORAGE_CONTAINER;
 const storageAccountName = globals.STORAGE_ACCOUNT;
 
-/*
-Extracting an annotation to an Azure Blob in React
-*/
 const createBlobInContainer = async (file) => {
     const blobService = new BlobServiceClient(
         `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
@@ -24,26 +21,23 @@ const createBlobInContainer = async (file) => {
     await blobClient.uploadData(file, options);
 }
 
-async function extractAnnotation(annotation, docViewer) {
+async function extractAnnotationSignature(annotation, docViewer) {
     // Create a new Canvas to draw the Annotation on
     const canvas = document.createElement('canvas');
     // Reference the annotation from the Document
     const pageMatrix = docViewer.getDocument().getPageMatrix(annotation.PageNumber);
-
     // Set the height & width of the canvas to match the annotation
     canvas.height = annotation.Height;
     canvas.width = annotation.Width;
     const ctx = canvas.getContext('2d');
-
     // Translate the Annotation to the top Top Left of the Canvas ie (0, 0)
     ctx.translate(-annotation.X, -annotation.Y);
-
     // Draw the Annotation onto the Canvas
     annotation.draw(ctx, pageMatrix);
-
     // Convert the Canvas to a Blob Object for Upload
     canvas.toBlob((blob) => {
-        createBlobInContainer(blob);
+        // Reference your Blob Storage Upload Function
+        createBlobInContainer(blob).then(console.log("Blob Uploaded Successfully"));
     });
 }
 
@@ -59,10 +53,11 @@ class ExtractSignatureWebViewer extends React.Component {
             const { annotManager, docViewer } = instance;
 
             docViewer.on('annotationsLoaded', async () => {
-                annotManager.on('annotationSelected', async (annotationList, action) => {
-                    for (let annotation in annotationList) {
-                        await extractAnnotation(annotationList[annotation], docViewer);
-                    }
+                annotManager.on('annotationSelected', async (annotationList) => {
+                    annotationList.forEach(annotation => {
+                        if (annotation.Subject === "Signature")
+                            extractAnnotationSignature(annotation, docViewer);
+                    })
                 })
             });
         });
