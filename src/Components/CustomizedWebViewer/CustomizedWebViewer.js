@@ -37,6 +37,7 @@ class CustomizedWebViewer extends React.Component {
 
     render() {
         return (<React.Fragment>
+            <h2>Foxy Docs</h2>
             <div className="webviewer" id="viewer" style={{ height: "100vh" }}>
             </div>
         </React.Fragment>);

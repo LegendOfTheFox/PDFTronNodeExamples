@@ -26,10 +26,20 @@
     background-color: yellow; 
 }
 
-.Header {
-    background-color: purple; 
-}
+
 
 .custom-ribbons-container {
-    background-color: pink; 
+    /* background-color: orange;  */
+}
+
+.ribbons-container {
+    background-color: orange; 
+}
+
+.Header {
+    background-color: black; 
+}
+
+.HeaderItems {
+    background-color: blue; 
 }
