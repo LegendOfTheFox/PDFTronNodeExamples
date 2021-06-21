@@ -16,7 +16,7 @@ class AnnotationWebViewer extends React.Component {
         WebViewer(
             {
                 path: '/webviewer/lib',
-                initialDoc: '/files/PDFTRON_about.pdf',
+                initialDoc: '/files/TextPDF.pdf',
                 annotationUser: 'Bryan'
             },
             document.getElementById('viewer'),

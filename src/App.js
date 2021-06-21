@@ -7,12 +7,16 @@ import CustomizedWebViewer from "./Components/CustomizedWebViewer/CustomizedWebV
 import AnnotationWebViewer from "./Components/AnnotationWebViewer";
 import ProgrammaticAnnotationWebViewer from "./Components/ProgrammaticAnnotationWebViewer";
 import DisableFeatureWebViewer from "./Components/DisableWebViewer";
+import CustomAnnotationTriangle from "./Components/CustomAnnotationTriangle";
+import CustomAnnotationArc from "./Components/CustomAnnotationArc";
 
 const App = () => {
 
   return (
     <div className="App">
-      <ProgrammaticAnnotationWebViewer />
+      {/* <BasicWebViewer /> */}
+      <CustomAnnotationArc />
+      {/* <CustomAnnotationTriangle /> */}
     </div>
   );
 };
