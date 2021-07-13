@@ -9,13 +9,15 @@ import ProgrammaticAnnotationWebViewer from "./Components/ProgrammaticAnnotation
 import DisableFeatureWebViewer from "./Components/DisableWebViewer";
 import CustomAnnotationTriangle from "./Components/CustomAnnotationTriangle";
 import CustomAnnotationArc from "./Components/CustomAnnotationArc";
+//import OCGWebViewer from './Components/OCGWebViewer';
+import ZoomTest from './Components/ZoomTest';
 
 const App = () => {
 
   return (
     <div className="App">
       {/* <BasicWebViewer /> */}
-      <CustomAnnotationArc />
+      <ZoomTest />
       {/* <CustomAnnotationTriangle /> */}
     </div>
   );
