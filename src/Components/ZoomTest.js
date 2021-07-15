@@ -18,7 +18,8 @@ class ZoomTest extends React.Component {
         WebViewer(
             {
                 path: '/webviewer/lib',
-                initialDoc: '/files/PDFTRON_about.pdf',
+                initialDoc: '/files/C.pdf',
+                enableMeasurement: true
             },
             document.getElementById('viewer'),
         ).then((instance) => {
@@ -27,37 +28,39 @@ class ZoomTest extends React.Component {
             
 
             docViewer.on('documentLoaded', () => {
-                var url = new URL(window.location.href); 
                 //var zoom = url.searchParams.get("zoom");
-                let zoom ="200,1,972,477";
+                let zoom ="200,1,152,50";
                 if (zoom) { 
-                  var setting = zoom.split(","); //zoom=200,1,972,477 
-                  instance.setZoomLevel(setting[0] / 100); 
-                  const doc = docViewer.getDocument(); 
-                  var scale = 2.835; 
-                  //var ViewerCoordinate = doc.getViewerCoordinates(setting[1], setting[2] * scale, setting[3] * scale);
-                  var ViewerCoordinate = doc.getViewerCoordinates(setting[1], setting[2], setting[3]);
-                  console.log("Viewer Coordinates");
-                  console.log(ViewerCoordinate); 
-                  docViewer.displayPageLocation(setting[1], ViewerCoordinate.x, ViewerCoordinate.y);
-                  console.log("Page Info");
-                  console.log(doc.getPageInfo(1));
-                  // problem # 1 is the conversion is wrong, the values being multipled out are larger than the page...
+                    var setting = zoom.split(",");
+                    
+                    const doc = docViewer.getDocument(); 
+                    const scale = 0.35265457598; //mm scaling ratio 
+                    const x =  (setting[2] / scale);
+                    const y = (setting[3] / scale);
+                    console.log("Page Dimensions");
+                    console.log(doc.getPageInfo(1));
+                    console.log(`x: ${x}, y: ${y}`);
 
-                  const rectangleAnnot = new Annotations.RectangleAnnotation();
-                  rectangleAnnot.PageNumber = setting[1];
-                  console.log(setting[2]);
-                  console.log(setting[3]);
-                  // values are in page coordinates with (0, 0) in the top left
-                  rectangleAnnot.X = 2;
-                  rectangleAnnot.Y = 2;
-                  rectangleAnnot.Width = 20;
-                  rectangleAnnot.Height = 20;
-                  //rectangleAnnot.Author = annotManager.getCurrentUser();
+                    instance.setZoomLevel(setting[0] / 100); 
+                    
+                    const ViewerCoordinate = doc.getViewerCoordinates(setting[1], x, y);
+                    docViewer.displayPageLocation(setting[1],ViewerCoordinate.x, ViewerCoordinate.y);
 
-                  annotManager.addAnnotation(rectangleAnnot);
-                  // need to draw the annotation otherwise it won't show up until the page is refreshed
-                  annotManager.redrawAnnotation(rectangleAnnot);
+                    let viewportRegion = docViewer.getExactViewportRegionRect(1);
+
+                    // Draw the Annotation
+                    const rectangleAnnot = new Annotations.RectangleAnnotation();
+                    rectangleAnnot.PageNumber = 1;
+                    rectangleAnnot.X = (viewportRegion.x1 + viewportRegion.x2)/2;
+                    rectangleAnnot.Y = (viewportRegion.y1 + viewportRegion.y2)/2;
+                    rectangleAnnot.Width = 2;
+                    rectangleAnnot.Height = 2;
+                    annotManager.addAnnotation(rectangleAnnot);
+                    annotManager.redrawAnnotation(rectangleAnnot);
+
+                    // let afterZoom = doc.getViewerCoordinates();
+                    // console.log("After Zoom");
+                    // console.log(afterZoom);
                 }
             });
         });

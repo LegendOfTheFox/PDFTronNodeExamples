@@ -11,13 +11,14 @@ import CustomAnnotationTriangle from "./Components/CustomAnnotationTriangle";
 import CustomAnnotationArc from "./Components/CustomAnnotationArc";
 //import OCGWebViewer from './Components/OCGWebViewer';
 import ZoomTest from './Components/ZoomTest';
+import UIChanges from './Components/UIChanges';
 
 const App = () => {
 
   return (
     <div className="App">
       {/* <BasicWebViewer /> */}
-      <ZoomTest />
+      <UIChanges />
       {/* <CustomAnnotationTriangle /> */}
     </div>
   );
