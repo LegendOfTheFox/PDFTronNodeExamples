@@ -12,13 +12,15 @@ import CustomAnnotationArc from "./Components/CustomAnnotationArc";
 //import OCGWebViewer from './Components/OCGWebViewer';
 import ZoomTest from './Components/ZoomTest';
 import UIChanges from './Components/UIChanges';
+import BasicForm from './Components/BasicForm';
+import RemoveAnnotations from "./Components/RemoveAnnotations";
 
 const App = () => {
 
   return (
     <div className="App">
       {/* <BasicWebViewer /> */}
-      <UIChanges />
+      <RemoveAnnotations />
       {/* <CustomAnnotationTriangle /> */}
     </div>
   );
