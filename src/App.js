@@ -14,13 +14,16 @@ import ZoomTest from './Components/ZoomTest';
 import UIChanges from './Components/UIChanges';
 import BasicForm from './Components/BasicForm';
 import RemoveAnnotations from "./Components/RemoveAnnotations";
+import TemplateGeneration from "./Components/TemplateGenerationTest";
+import ViewerOptimizedWebViewer from "./Components/ViewerOptimizedWebViewer";
+import FormFieldTesting from "./Components/FormFieldTesting";
 
 const App = () => {
 
   return (
     <div className="App">
       {/* <BasicWebViewer /> */}
-      <RemoveAnnotations />
+      <FormFieldTesting />
       {/* <CustomAnnotationTriangle /> */}
     </div>
   );
