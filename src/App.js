@@ -17,13 +17,14 @@ import RemoveAnnotations from "./Components/RemoveAnnotations";
 import TemplateGeneration from "./Components/TemplateGenerationTest";
 import ViewerOptimizedWebViewer from "./Components/ViewerOptimizedWebViewer";
 import FormFieldTesting from "./Components/FormFieldTesting";
+import XFATest from "./Components/XFATest";
 
 const App = () => {
 
   return (
     <div className="App">
       {/* <BasicWebViewer /> */}
-      <FormFieldTesting />
+      <XFATest />
       {/* <CustomAnnotationTriangle /> */}
     </div>
   );
