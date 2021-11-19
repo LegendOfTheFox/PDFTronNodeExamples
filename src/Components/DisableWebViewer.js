@@ -16,8 +16,13 @@ class DisableFeatureWebViewer extends React.Component {
             },
             document.getElementById('viewer'),
         ).then((instance) => {
-            instance.disableFeatures(instance.Feature.Download);
-            instance.disableFeatures(instance.Feature.Print);
+            //instance.disableFeatures(instance.Feature.Download);
+            //instance.disableFeatures(instance.Feature.Print);
+
+            // hide the Shapes, Edit and Insert toolbar groups.
+            //instance.UI.disableElements([ "ribbons", "toolsHeader", "panToolButton", "selectToolButton", "searchButton", "toggleNotesButton", "fullscreenButton", "themeChangeButton" ]);
+            //instance.UI.disableElements(['toolbarGroup-Edit']);
+            //instance.UI.disableElements(['toolbarGroup-Insert']);
         });
     }
 
