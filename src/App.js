@@ -10,7 +10,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <PSPDFKITBasicViewer document={"/files/PDFTRON_about.pdf"} />
+      <h1>Test</h1>
+      <BasicWebViewer />
+      {/* <PSPDFKITBasicViewer document={"/files/2gb-sample-file.pdf"} /> */}
     </div>
   );
 };

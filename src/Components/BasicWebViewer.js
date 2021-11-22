@@ -1,54 +1,49 @@
 import React from 'react';
 import WebViewer from '@pdftron/webviewer';
+import globals from '../config/globals';
 
-/*
-This example is drawing a Rectangle Annotation onto the page.
-
-*/
 class BasicWebViewer extends React.Component {
     componentDidMount() {
         WebViewer(
             {
                 path: '/webviewer/lib',
-                initialDoc: '/files/vadim2.pdf',
+                initialDoc: '/files/PDFTRON_about.pdf',
                 enableMeasurement: true,
-                webviewerServerURL: 'http://localhost:8091/',
+                fullAPI: true,
+                licenseKey: globals.KEY
             },
             document.getElementById('viewer'),
-        ).then( (instance) => {
+        ).then( async (instance) => {
             const { documentViewer, annotationManager, PDFNet } = instance.Core;
             const fieldManager = annotationManager.getFieldManager();
             instance.UI.enableFeatures([instance.UI.Feature.FilePicker]);
-            //instance.UI.loadDocument()
-            
-            //instance.UI.loadDocument(convertedDoc);
-            instance.UI.setHeaderItems(function(header) {
-                header.unshift({
-                    type: 'customElement',
-                    render: () => {
-                    const newElement = document.createElement('h1');
-                    newElement.textContent = "10"// Feed your custom value here;
-                    newElement.style.width = '10px';
-                    newElement.style.marginLeft = '10px';
-                    newElement.style.cursor = 'pointer';
-                    newElement.onclick = () => {
-                        //Do Something
-                    }
-                    return newElement;
-                    }
-                }, 
-                {
-                    type: 'spacer'
+            instance.UI.enableElements(['editTextButton']);
+
+            documentViewer.addEventListener('click', async (e) => {
+                console.log("Test")
+                await PDFNet.initialize();
+                const doc = await documentViewer.getDocument().getPDFDoc();
+
+                await PDFNet.runWithCleanup(async () => {
+                
+                    doc.lock(); 
+                    const replacer = await PDFNet.ContentReplacer.create();
+                    const page = await doc.getPage(1);
+                    console.log(page);
+                    // replace a text placeholder
+                    await replacer.addString('', '');
+                    await replacer.process(page);
+                    // clear the cache (rendered) data with the newly updated document
                 });
-            });
+                documentViewer.refreshAll();
+                // Update viewer to render with the new document
+                documentViewer.updateView();
+                // Refresh searchable and selectable text data with the new document
+                documentViewer.getDocument().refreshTextData();
+            })
 
             annotationManager.addEventListener('annotationChanged', (annotations, action, { imported }) => {  
-            
-
             });
-
-          
-
         })
 
 
