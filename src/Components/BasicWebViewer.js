@@ -7,45 +7,38 @@ class BasicWebViewer extends React.Component {
         WebViewer(
             {
                 path: '/webviewer/lib',
-                initialDoc: '/files/PDFTRON_about.pdf',
+                initialDoc: this.props.document,
+                licenseKey: globals.KEY,
                 enableMeasurement: true,
-                fullAPI: true,
-                licenseKey: globals.KEY
+                fullAPI: true
             },
             document.getElementById('viewer'),
         ).then( async (instance) => {
-            const { documentViewer, annotationManager, PDFNet } = instance.Core;
-            const fieldManager = annotationManager.getFieldManager();
+            const { documentViewer, annotationManager, Annotations } = instance.Core;
+
             instance.UI.enableFeatures([instance.UI.Feature.FilePicker]);
-            instance.UI.enableElements(['editTextButton']);
+            
 
-            documentViewer.addEventListener('click', async (e) => {
-                console.log("Test")
-                await PDFNet.initialize();
-                const doc = await documentViewer.getDocument().getPDFDoc();
-
-                await PDFNet.runWithCleanup(async () => {
-                
-                    doc.lock(); 
-                    const replacer = await PDFNet.ContentReplacer.create();
-                    const page = await doc.getPage(1);
-                    console.log(page);
-                    // replace a text placeholder
-                    await replacer.addString('', '');
-                    await replacer.process(page);
-                    // clear the cache (rendered) data with the newly updated document
-                });
-                documentViewer.refreshAll();
-                // Update viewer to render with the new document
+            documentViewer.addEventListener('documentLoaded', async () => {
+                const doc = documentViewer.getDocument();
+                await doc.documentCompletePromise();
                 documentViewer.updateView();
-                // Refresh searchable and selectable text data with the new document
-                documentViewer.getDocument().refreshTextData();
-            })
 
-            annotationManager.addEventListener('annotationChanged', (annotations, action, { imported }) => {  
+                const keys = await doc.getTemplateKeys();
+                console.log(keys);
             });
-        })
 
+            annotationManager.on('annotationChanged', (annotations, action) => {
+                console.log(annotations);
+                console.log(action);
+                
+                if (action === 'add') {
+                    annotations[0].NoZoom = false;
+                    annotationManager.updateAnnotation(annotations[0]);
+                }
+            })
+        })
+        
 
     };
 

@@ -3,16 +3,18 @@ import React from 'react';
 import './App.css';
 import BasicWebViewer from "./Components/BasicWebViewer";
 import DisableWebViewer from "./Components/DisableWebViewer";
-import FormFillingWebViewer from "./Components/FormFilling";
-import PSPDFKITBasicViewer from "./Components/PSPDFKitBasicViewer"
+import DisplayMode from "./Components/DisplayMode";
+import FormFillingWebViewer from './Components/FormFilling';
+import BlurredWebViewer from "./Components/BlurredWebViewer";
+import CustomStamp from "./Components/CustomStamp";
+import CustomAnnotationIdCard from "./Components/CustomAnnotationIdCard";
 
 const App = () => {
+  const document = '/files/PDFTRON_about.pdf';
 
   return (
     <div className="App">
-      <h1>Test</h1>
-      <BasicWebViewer />
-      {/* <PSPDFKITBasicViewer document={"/files/2gb-sample-file.pdf"} /> */}
+      <CustomAnnotationIdCard document={document} />
     </div>
   );
 };

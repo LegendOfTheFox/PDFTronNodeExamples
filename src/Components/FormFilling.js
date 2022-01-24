@@ -10,59 +10,71 @@ class FormFillingWebViewer extends React.Component {
         WebViewer(
             {
                 path: '/webviewer/lib',
-                initialDoc: '/files/PDFTRON_about.pdf',
+                initialDoc: '/files/form.pdf',
             },
             document.getElementById('viewer'),
         ).then( (instance) => {
           const { documentViewer, annotationManager, PDFNet, Annotations } = instance.Core;
-          const fieldManager = annotationManager.getFieldManager();
-          const { Tools } = instance.Core;
+          const { WidgetFlags } = Annotations;
+          
+          const getFieldNameAndValue = (field) => {
+            //console.log(field);
+
+            if(field.widgets && field.widgets.length > 0){
+              console.log(field.widgets[0].rect);
 
 
-          // const newActionButton = {
-          //     type: 'toggleElementButton',
-          //     img: '/images/foxsamplepng.png',
-          //     toolName: 'Test',
-          //     onClick: () => {
-          //         //alert('Foxy Test!');
-          //         //const stampAnnot = new Annotations.StampAnnotation();
-          //        // const tool = documentViewer.getTool('AnnotationCreateRubberStamp');
-          //       //  documentViewer.setToolMode('AnnotationCreateRubberStamp')
-          //       const formFillCrossTool = new Tools.RubberStampCreateTool(this, undefined);
+              // set flags for required
+              const flags = new WidgetFlags();
+              flags.set('Required', true);
 
-          //       formFillCrossTool.useStamp({
-          //         'Icon': '/images/foxsamplepng.png',
-          //         'Width': 23,
-          //         'Height': 23
-          //         //'FillColor': new Color(0, 0, 0, 1)
-          //       });
+              // create a form field
+              const sigField = new Annotations.Forms.Field("some signature field name", { 
+                type: 'Sig', 
+                flags,
+              });
 
-          //       documentViewer.setToolMode(formFillCrossTool);
-          //         //console.log(tool);
-          //         console.log("Test")
-          //     },
-          //     dataElement: 'alertButton',
-          //     hidden: ['mobile']
-          // }
+              // create a widget annotation
+              const widgetAnnot = new Annotations.SignatureWidgetAnnotation(sigField, {
+                appearance: '_DEFAULT',
+                appearances: {
+                  _DEFAULT: {
+                    Normal: {
+                      data:
+                        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuMWMqnEsAAAANSURBVBhXY/j//z8DAAj8Av6IXwbgAAAAAElFTkSuQmCC',
+                      offset: {
+                        x: 100,
+                        y: 100,
+                      },
+                    },
+                  },
+                },
+              });
 
-          // instance.UI.setHeaderItems(header => {
-          //       header.push(newActionButton);
-          // })
+              // set position and size
+              widgetAnnot.PageNumber = 1;
+              widgetAnnot.X = field.widgets[0].X;
+              widgetAnnot.Y = field.widgets[0].Y;
+              widgetAnnot.Width = field.widgets[0].Width;
+              widgetAnnot.Height = field.widgets[0].Height;
 
-            //checkStampToolButton
-          //const tool = documentViewer.getTool('AnnotationCreateCheckStamp');
+              //add the form field and widget annotation
+              annotationManager.addAnnotation(widgetAnnot);
+              annotationManager.drawAnnotationsFromList([widgetAnnot]);
+              annotationManager.getFieldManager().addField(field);
+            }
 
+            // Check children fields
+            field.children.forEach(getFieldNameAndValue);
+          }
 
-          instance.UI.updateTool('AnnotationCreateArrow', {
-            buttonImage: 'https://www.pdftron.com/favicon-32x32.png'
+          documentViewer.addEventListener('annotationsLoaded', () => {
+            const fieldManager = annotationManager.getFieldManager();
+            //fieldManager.forEachField(getFieldNameAndValue);
           });
 
-          instance.UI.updateElement('crossStampToolButton', {
-            img: 'https://www.pdftron.com/favicon-32x32.png'
-          });
-
-        })
-    };
+        });
+    }
 
     render() {
         return (<React.Fragment>

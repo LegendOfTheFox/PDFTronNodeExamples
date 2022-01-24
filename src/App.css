@@ -8,10 +8,25 @@
 .App .header {
   width: 100%;
   height: 60px;
-  padding: 8px 8px 8px 16px;
+  margin: 0;
+  padding: 0;
+
   box-sizing: border-box;
   background: #00a5e4;
   font-size: 1.2em;
   line-height: 44px;
   color: white;
+}
+
+.Overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+
+  /* opacity: 0.9; */
+  /* background-color: red; */
+  position: fixed;
+  pointer-events: none;
+  /* filter: blur(5px); */
 }
